@@ -129,26 +129,12 @@ public class CardDeliveryTest {
     }
 
     @Test
-    public void twoLettersInCityFielsTest() {
+    public void enterDataFromCalendarAndListTest() {
         $("[data-test-id='city'] input").setValue("Мо");
-        $(".input__menu").findElement(byText("Москва")).click();
-        $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
-        $("[data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
-        $("[data-test-id='name'] input").setValue("Иван Петров");
-        $("[data-test-id='phone'] input").setValue("+79000000000");
-        $("[data-test-id='agreement']").click();
-        $$("button").findBy(text("Забронировать")).click();
-        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
-        $(byText("Встреча успешно забронирована на")).shouldBe(visible, Duration.ofSeconds(15))
-                .shouldBe(text("Встреча успешно забронирована на " + generateDate(3, "dd.MM.yyyy")));
-    }
-
-    @Test
-    public void selectingDateInCalendarTest() {
-        $("[data-test-id='city'] input").setValue("Москва");
+        $$(".menu-item").findBy(text("Москва")).click();
         $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] .icon-button").click();
-        $(".calendar__layout").findElement(byText(generateDate(7, "d"))).click();
+        $$(".calendar__day").findBy(text(generateDate(7, "d"))).click();
         $("[data-test-id='name'] input").setValue("Иван Петров");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
