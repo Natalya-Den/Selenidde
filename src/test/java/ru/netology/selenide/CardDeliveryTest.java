@@ -69,7 +69,6 @@ public class CardDeliveryTest {
         $("[data-test-id='city'] input").setValue("Казань");
         $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
-        //$("[data-test-id='name'] input").setValue("Иван Петров");
         $("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
         $$("button").findBy(text("Забронировать")).click();
@@ -96,7 +95,6 @@ public class CardDeliveryTest {
         $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("[data-test-id='name'] input").setValue("Иван Петров");
-        //$("[data-test-id='phone'] input").setValue("+79000000000");
         $("[data-test-id='agreement']").click();
         $$("button").findBy(text("Забронировать")).click();
         $("[data-test-id='phone'] .input__sub").shouldBe(visible, Duration.ofSeconds(15))
@@ -123,17 +121,33 @@ public class CardDeliveryTest {
         $("[data-test-id='date'] input").setValue(generateDate(3, "dd.MM.yyyy"));
         $("[data-test-id='name'] input").setValue("Иван Петров");
         $("[data-test-id='phone'] input").setValue("+79000000000");
-        // $("[data-test-id='agreement']").click();
         $$("button").findBy(text("Забронировать")).click();
         $("[data-test-id = 'agreement'].input_invalid .checkbox__text").shouldBe(visible, Duration.ofSeconds(15));
     }
 
     @Test
-    public void enterDataFromCalendarAndListTest() {
+    public void enterCityTwoLettersTest() {
         $("[data-test-id='city'] input").setValue("Мо");
         $$(".menu-item").findBy(text("Москва")).click();
         $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
+        $("[data-test-id='date'] input").setValue(generateDate(7, "dd.MM.yyyy"));
+        $("[data-test-id='name'] input").setValue("Иван Петров");
+        $("[data-test-id='phone'] input").setValue("+79000000000");
+        $("[data-test-id='agreement']").click();
+        $$("button").findBy(text("Забронировать")).click();
+        $(withText("Успешно!")).shouldBe(visible, Duration.ofSeconds(15));
+        $(byText("Встреча успешно забронирована на")).shouldBe(visible, Duration.ofSeconds(15))
+                .shouldBe(text("Встреча успешно забронирована на " + generateDate(7, "dd.MM.yyyy")));
+    }
+
+    @Test
+    public void enterDateFromCalendarTest() {
+        $("[data-test-id='city'] input").setValue("Казань");
+        $("[data-test-id='date'] input").press(Keys.chord(Keys.SHIFT, Keys.HOME), Keys.BACK_SPACE);
         $("[data-test-id='date'] .icon-button").click();
+        if (!generateDate(0, "M").equals(generateDate(7, "M"))) {
+            $$(".calendar__arrow").last().click();
+        }
         $$(".calendar__day").findBy(text(generateDate(7, "d"))).click();
         $("[data-test-id='name'] input").setValue("Иван Петров");
         $("[data-test-id='phone'] input").setValue("+79000000000");
